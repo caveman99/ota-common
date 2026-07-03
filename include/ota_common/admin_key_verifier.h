@@ -3,10 +3,10 @@
 // against ANY held admin key (Curve25519), using the fleet-wide OTA convention
 // (from=0, id=0, portnum=LORA_OTA_APP). Fail closed: no keys -> reject.
 //
-// For the Path A loader (which has no CryptoEngine): the admin keys are handed
-// to it (e.g. via the reboot-to-loader NVS handoff) and added here. Path B
-// firmware uses its own CryptoEngine-backed verifier instead, to avoid bundling
-// a second crypto implementation.
+// For the standalone loader (which has no CryptoEngine): the admin keys are
+// handed to it (e.g. via the reboot-to-loader NVS handoff) and added here. The
+// main firmware uses its own CryptoEngine-backed verifier instead, to avoid
+// bundling a second crypto implementation.
 #pragma once
 
 #include <cstddef>

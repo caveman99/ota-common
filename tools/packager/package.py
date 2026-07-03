@@ -40,16 +40,17 @@ LORA_OTA_PORTNUM = 79
 
 # heatshrink is the embedded-friendly compressor: the detools C decoder we
 # vendor on-device supports it, and it shrinks bsdiff's mostly-zero diff array
-# (which "none" would store at ~full image size). Path A's in-place/CRLE variant
-# is selected separately when that sink is wired up.
+# (which "none" would store at ~full image size). The in-place/CRLE variant is
+# selected separately when that sink is wired up.
 DEFAULT_COMPRESSION = "heatshrink"
 
 
 def make_delta(base: bytes, target: bytes, compression: str = DEFAULT_COMPRESSION) -> bytes:
     """Produce a detools delta that reconstructs target from base.
 
-    Decoder-only on device. The default sequential bsdiff format applies to
-    Path B (normal mode); Path A selects an in-place patch_type at its sink.
+    Decoder-only on device. The default sequential bsdiff format is applied in
+    normal mode (separate base and destination); the in-place patch_type is
+    selected at the sink for a single-slot apply.
     """
     import detools
 
@@ -82,7 +83,7 @@ def make_inplace_delta(
     segment_size: int = 4096,
     compression: str = DEFAULT_COMPRESSION,
 ) -> bytes:
-    """Produce an in-place detools patch (Path A: base == destination flash).
+    """Produce an in-place detools patch (base == destination flash).
 
     memory_size is the flash region the in-place apply operates within (a
     multiple of segment_size, >= the target size with headroom); segment_size is

@@ -142,8 +142,9 @@ static void test_wrong_base_fails_output_gate() {
     }
 }
 
-// The Path B delta apply-path as a unit: decode the delta straight into an
-// IFlashTarget via FlashTargetByteSink, then the target's commit gate passes.
+// The separate-partition delta apply-path as a unit: decode the delta straight
+// into an IFlashTarget via FlashTargetByteSink, then the target's commit gate
+// passes.
 static void test_delta_into_flash_target() {
     auto base = read_fixture("base_image.bin");
     auto target = read_fixture("target_image.bin");
@@ -197,7 +198,7 @@ static void test_buffer_store_assembles_delta() {
     TEST_ASSERT_EQUAL_MEMORY(target.data(), sink.out.data(), target.size());
 }
 
-// ---- in-place apply (Path A) -----------------------------------------------
+// ---- in-place apply --------------------------------------------------------
 
 // Must match tools/gen_fixtures.py IN_PLACE_* constants.
 static constexpr size_t kInPlaceMemorySize = 65536;

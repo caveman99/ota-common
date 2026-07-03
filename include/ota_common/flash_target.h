@@ -1,6 +1,6 @@
 // The one platform-specific seam of the apply path. The detools decoder writes
 // reconstructed image bytes through write(); the protocol/apply code above is
-// identical across Path A (in-place CRLE -> ota_0) and Path B (inactive slot).
+// identical for the in-place apply (CRLE -> ota_0) and the inactive-slot apply.
 #pragma once
 
 #include <cstddef>
@@ -13,10 +13,10 @@ namespace ota_common {
 enum class FlashStatus { Ok, OutOfRange, WriteError, VerifyFailed, NotReady };
 
 // Sink for the reconstructed output image. Implementations:
-//   InPlaceCrleTarget  (Path A): detools in-place/CRLE into ota_0, forward
-//                                journal for resume.
-//   InactiveSlotTarget (Path B): detools normal mode into the inactive slot,
-//                                esp_ota_set_boot_partition + IDF rollback.
+//   InPlaceCrleTarget:  detools in-place/CRLE into ota_0, forward journal for
+//                       resume (boards with a single firmware slot).
+//   InactiveSlotTarget: detools normal mode into the inactive slot,
+//                       esp_ota_set_boot_partition + IDF rollback (A/B boards).
 struct IFlashTarget {
     virtual ~IFlashTarget() = default;
 

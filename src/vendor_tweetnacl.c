@@ -4,9 +4,9 @@
  *
  * ota_xeddsa_verify_raw converts a Curve25519 public key to Ed25519 via the RFC
  * 7748 birational map (matching CryptoEngine::curve_to_ed_pub) and then verifies
- * a standard Ed25519 signature (crypto_sign_open). This lets the bare-IDF Path A
- * loader and the host tests verify admin-key signatures without the firmware's
- * CryptoEngine.
+ * a standard Ed25519 signature (crypto_sign_open). This lets the bare-IDF
+ * standalone loader and the host tests verify admin-key signatures without the
+ * firmware's CryptoEngine.
  */
 #include <string.h>
 

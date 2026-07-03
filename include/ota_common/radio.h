@@ -1,5 +1,5 @@
 // Radio seam. The transport FSM speaks in whole frames; each consumer injects
-// its own radio (RadioLib in the Path A loader, RadioInterface in Path B main
+// its own radio (RadioLib in the standalone loader, RadioInterface in the main
 // firmware). No routing, no mesh: a single point-to-point OTA RF profile.
 #pragma once
 

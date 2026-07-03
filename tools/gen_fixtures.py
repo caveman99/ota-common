@@ -71,8 +71,8 @@ def main() -> int:
     delta_pkg = package.build_delta_package(base_image=base_image, target_image=target_image)
     (FIXTURES / "delta_package.bin").write_bytes(delta_pkg)
 
-    # In-place patch (Path A): patches the whole flash region (base -> target) in
-    # place. memory_size/segment_size are fixed here and mirrored in the C++ test.
+    # In-place patch: patches the whole flash region (base -> target) in place.
+    # memory_size/segment_size are fixed here and mirrored in the C++ test.
     inplace = package.make_inplace_delta(
         base_image, target_image, memory_size=IN_PLACE_MEMORY_SIZE,
         segment_size=IN_PLACE_SEGMENT_SIZE,

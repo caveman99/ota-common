@@ -9,8 +9,8 @@
 // produced from a 32-byte Curve25519 admin keypair, verified via
 // CryptoEngine::xeddsa_verify. Verification is injected so this core stays free
 // of a bundled crypto library:
-//   - Path B firmware: an admin-key XEdDSA verifier over CryptoEngine.
-//   - Path A loader (bare IDF) and host: the self-contained AdminKeyVerifier.
+//   - main firmware: an admin-key XEdDSA verifier over CryptoEngine.
+//   - standalone loader (bare IDF) and host: the self-contained AdminKeyVerifier.
 //   - host tests: a test verifier.
 #pragma once
 

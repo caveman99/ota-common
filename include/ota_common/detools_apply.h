@@ -40,11 +40,11 @@ private:
 
 // Apply `patch` (a full detools delta) against `base`, writing the reconstructed
 // image to `sink`. Returns the output size in bytes on success, or a negative
-// detools error code (see detools_apply_error_string). This is the Path B model
-// (base and destination are different partitions).
+// detools error code (see detools_apply_error_string). Use this when base and
+// destination are different partitions (an A/B board writing the inactive slot).
 int detools_apply(IImageReader& base, const uint8_t* patch, size_t patch_len, IByteSink& sink);
 
-// ---- Path A: in-place delta apply ------------------------------------------
+// ---- In-place delta apply --------------------------------------------------
 //
 // Patches a single flash region against itself (base == destination == ota_0),
 // which is what a 4 MB board must do (no spare slot). detools' in-place format

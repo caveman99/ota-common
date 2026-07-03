@@ -66,7 +66,7 @@ bool start_info_unpack(const uint8_t* in, size_t len, OtaStartInfo& out);
 
 // Persistent verified-payload store. Doubles as the resume journal: has_block()
 // reports what survived a reboot. Implementations write to a delta buffer
-// (Path A/B delta) or stream to flash (full image).
+// (delta) or stream to flash (full image).
 struct IBlockStore {
     virtual ~IBlockStore() = default;
     virtual bool has_block(uint32_t index) const = 0;
@@ -84,8 +84,7 @@ struct IFrameOut {
 // verified payload block straight into an IFlashTarget. Writes are sequential
 // (the transport requests the lowest missing block, so blocks arrive in order),
 // and resume is RAM-only -- an interrupt restarts the transfer, which is safe
-// for Path B because the destination is the inactive slot and the active slot
-// is untouched. The delta path uses a buffering store + the detools decoder
+// when the destination is the inactive slot and the active slot is untouched. The delta path uses a buffering store + the detools decoder
 // instead; this bridge is not used there.
 //
 // Usage: construct over the target; once the receiver has the manifest, call

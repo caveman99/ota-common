@@ -1,7 +1,7 @@
 // Self-contained XEdDSA (Signal) signature verification, built on the vendored
 // TweetNaCl. Mirrors the firmware's CryptoEngine::xeddsa_verify so a signature
 // the admin device produces verifies identically here (host tests, and the
-// bare-IDF Path A loader which has no CryptoEngine).
+// bare-IDF standalone loader which has no CryptoEngine).
 #pragma once
 
 #include <cstddef>
