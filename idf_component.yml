@@ -1,0 +1,33 @@
+# ESP Component Registry manifest -- the ESP-IDF twin of library.json.
+# Keep version/description/license in sync across this file, library.json, and
+# library.properties.
+version: "0.1.0"
+description: >-
+  Framework-agnostic core for Meshtastic LoRa OTA: self-identity trailer, update
+  package/manifest parse, merkle verify, SHA-256, detools delta apply, and the
+  IFlashTarget/IRadio/ISignatureVerifier seams. Shared by the standalone LoRa
+  loader and the main firmware.
+url: "https://github.com/meshtastic/firmware"
+repository: "https://github.com/meshtastic/firmware.git"
+license: "GPL-3.0-only"
+
+dependencies:
+  # Pure C/C++17 core; only needs the base IDF build system, no other components.
+  idf: ">=5.0"
+
+# Keep the published archive lean: ship only the buildable component (sources,
+# headers, vendored third-party, the build manifests, and licenses/docs).
+files:
+  exclude:
+    - "**/*"
+  include:
+    - "CMakeLists.txt"
+    - "idf_component.yml"
+    - "library.json"
+    - "library.properties"
+    - "LICENSE"
+    - "README.md"
+    - "src/**/*"
+    - "include/**/*"
+    - "third_party/**/*"
+    - "docs/**/*"

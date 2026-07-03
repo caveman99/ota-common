@@ -1,0 +1,17 @@
+# PlatformIO / ESP-IDF build output
+.pio/
+build/
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp

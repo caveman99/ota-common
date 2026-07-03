@@ -1,0 +1,18 @@
+TweetNaCl - a crypto library in 100 tweets.
+
+Source:  https://tweetnacl.cr.yp.to/20140427/{tweetnacl.c,tweetnacl.h}
+Authors: Daniel J. Bernstein, Bernard van Gastel, Wesley Janssen,
+         Tanja Lange, Peter Schwabe, Sjaak Smetsers.
+License: Public domain.
+
+sha256:
+  02e65bc3013ff2168983365e55906bc783c4c7e0a60d8100f17bb303a17175c4  tweetnacl.c
+  43f29ad721d9927b747b0100ab4160c119e7bb180c7c98a66e4bf79d31244287  tweetnacl.h
+
+Used for XEdDSA (Signal) signature verification of the update manifest against
+the node's Curve25519 admin keys, matching the firmware's
+CryptoEngine::xeddsa_verify. src/vendor_tweetnacl.c #includes tweetnacl.c and
+adds ota_xeddsa_verify_raw(), which converts a Curve25519 public key to Ed25519
+(the RFC 7748 birational map, using TweetNaCl's field ops) and then verifies a
+standard Ed25519 signature via crypto_sign_open. randombytes() (key generation
+only) is stubbed and never used here. The files are unmodified upstream.

@@ -1,0 +1,5 @@
+detools>=0.53.0
+pytest>=8.0
+# For regenerating the XEdDSA interop fixtures (gen_xeddsa_fixtures.py). Not
+# needed to build/run the tests, which read the committed fixtures.
+xeddsa>=1.2.0

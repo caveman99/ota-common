@@ -1,0 +1,9 @@
+# Normalize all text to LF in the repository; check out LF on every platform.
+* text=auto eol=lf
+
+# Shell scripts must stay LF to run.
+*.sh text eol=lf
+
+# Binary test fixtures: never touch line endings, never diff as text.
+*.bin binary
+test/fixtures/** binary
