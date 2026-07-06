@@ -61,6 +61,19 @@ bool start_info_unpack(const uint8_t* in, size_t len, OtaStartInfo& out) {
     return true;
 }
 
+void load_info_pack(const OtaLoadInfo& s, std::vector<uint8_t>& out) {
+    out.resize(kLoadInfoLen);
+    put32(out.data() + 0, s.total_len);
+    put32(out.data() + 4, s.offset);
+}
+
+bool load_info_unpack(const uint8_t* in, size_t len, OtaLoadInfo& out) {
+    if (in == nullptr || len < kLoadInfoLen) return false;
+    out.total_len = get32(in + 0);
+    out.offset = get32(in + 4);
+    return true;
+}
+
 // ---- Reassembler -----------------------------------------------------------
 
 void OtaReceiver::Reassembler::reset(uint16_t total_len) {

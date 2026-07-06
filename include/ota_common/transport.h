@@ -39,6 +39,8 @@ enum class OtaFrameType : uint8_t {
     Ack = 6,      // target->seeder: <index> verified
     Done = 7,     // target->seeder: all blocks verified
     Abort = 8,    // either side: session aborted
+    Load = 9,        // client->relay: a chunk of the package to seed (OtaLoadInfo prefix)
+    LoadCommit = 10, // client->relay: package upload complete, begin seeding
 };
 
 // 8-byte little-endian frame header. Field meaning is per-type; see the senders.
@@ -63,6 +65,19 @@ struct OtaStartInfo {
 };
 void start_info_pack(const OtaStartInfo& s, std::vector<uint8_t>& out);
 bool start_info_unpack(const uint8_t* in, size_t len, OtaStartInfo& out);
+
+// LOAD payload prefix (8 bytes). A client streams the signed package to a relay
+// node in Load frames (each carries this prefix followed by the chunk bytes);
+// the relay assembles the buffer, then a LoadCommit frame makes it seed the
+// package to the mesh. total_len is the whole package; offset is this chunk's
+// position within it.
+inline constexpr size_t kLoadInfoLen = 8;
+struct OtaLoadInfo {
+    uint32_t total_len;
+    uint32_t offset;
+};
+void load_info_pack(const OtaLoadInfo& s, std::vector<uint8_t>& out);
+bool load_info_unpack(const uint8_t* in, size_t len, OtaLoadInfo& out);
 
 // Persistent verified-payload store. Doubles as the resume journal: has_block()
 // reports what survived a reboot. Implementations write to a delta buffer
