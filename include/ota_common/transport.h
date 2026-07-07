@@ -41,6 +41,8 @@ enum class OtaFrameType : uint8_t {
     Abort = 8,    // either side: session aborted
     Load = 9,        // client->relay: a chunk of the package to seed (OtaLoadInfo prefix)
     LoadCommit = 10, // client->relay: package upload complete, begin seeding
+    Announce = 11,   // seeder->targets, on the MESH channel: an OTA session is
+                     // starting; switch to the dedicated OTA channel and listen.
 };
 
 // 8-byte little-endian frame header. Field meaning is per-type; see the senders.
