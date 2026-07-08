@@ -20,30 +20,33 @@ namespace ota_common {
 
 class AdminKeyVerifier final : public ISignatureVerifier {
 public:
-    static constexpr size_t kMaxKeys = 3;
+  static constexpr size_t kMaxKeys = 3;
 
-    // Add a 32-byte Curve25519 admin public key. Returns false if full.
-    bool add_key(const uint8_t* key32) {
-        if (count_ >= kMaxKeys) return false;
-        std::memcpy(keys_[count_++], key32, kSignaturePubLen);
+  // Add a 32-byte Curve25519 admin public key. Returns false if full.
+  bool add_key(const uint8_t *key32) {
+    if (count_ >= kMaxKeys)
+      return false;
+    std::memcpy(keys_[count_++], key32, kSignaturePubLen);
+    return true;
+  }
+
+  size_t key_count() const { return count_; }
+
+  bool verify(const uint8_t *msg, size_t msg_len, const uint8_t *sig,
+              size_t sig_len) const override {
+    if (sig_len != kSignatureLen || count_ == 0)
+      return false; // fail closed
+    for (size_t i = 0; i < count_; ++i) {
+      if (xeddsa_verify(keys_[i], /*from=*/0, /*id=*/0, kOtaPortnum, msg,
+                        msg_len, sig))
         return true;
     }
-
-    size_t key_count() const { return count_; }
-
-    bool verify(const uint8_t* msg, size_t msg_len, const uint8_t* sig,
-                size_t sig_len) const override {
-        if (sig_len != kSignatureLen || count_ == 0) return false; // fail closed
-        for (size_t i = 0; i < count_; ++i) {
-            if (xeddsa_verify(keys_[i], /*from=*/0, /*id=*/0, kOtaPortnum, msg, msg_len, sig))
-                return true;
-        }
-        return false;
-    }
+    return false;
+  }
 
 private:
-    uint8_t keys_[kMaxKeys][kSignaturePubLen];
-    size_t count_ = 0;
+  uint8_t keys_[kMaxKeys][kSignaturePubLen];
+  size_t count_ = 0;
 };
 
 } // namespace ota_common

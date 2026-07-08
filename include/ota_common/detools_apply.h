@@ -12,37 +12,41 @@
 
 namespace ota_common {
 
-// Sequential output sink for the reconstructed image (a flash target, a buffer).
+// Sequential output sink for the reconstructed image (a flash target, a
+// buffer).
 struct IByteSink {
-    virtual ~IByteSink() = default;
-    // Return false to abort the apply (e.g. flash write error).
-    virtual bool write(const uint8_t* data, size_t len) = 0;
+  virtual ~IByteSink() = default;
+  // Return false to abort the apply (e.g. flash write error).
+  virtual bool write(const uint8_t *data, size_t len) = 0;
 };
 
 // Adapts an IFlashTarget into an IByteSink: the detools decoder writes the
-// reconstructed image sequentially, forwarded to the target at a running offset.
-// The caller must have already called target.begin(); after the apply, call
-// target.commit() to run the hard output-hash gate and activate.
+// reconstructed image sequentially, forwarded to the target at a running
+// offset. The caller must have already called target.begin(); after the apply,
+// call target.commit() to run the hard output-hash gate and activate.
 class FlashTargetByteSink final : public IByteSink {
 public:
-    explicit FlashTargetByteSink(IFlashTarget& target) : target_(target) {}
-    bool write(const uint8_t* data, size_t len) override {
-        if (target_.write(offset_, data, len) != FlashStatus::Ok) return false;
-        offset_ += static_cast<uint32_t>(len);
-        return true;
-    }
-    uint32_t bytes_written() const { return offset_; }
+  explicit FlashTargetByteSink(IFlashTarget &target) : target_(target) {}
+  bool write(const uint8_t *data, size_t len) override {
+    if (target_.write(offset_, data, len) != FlashStatus::Ok)
+      return false;
+    offset_ += static_cast<uint32_t>(len);
+    return true;
+  }
+  uint32_t bytes_written() const { return offset_; }
 
 private:
-    IFlashTarget& target_;
-    uint32_t offset_ = 0;
+  IFlashTarget &target_;
+  uint32_t offset_ = 0;
 };
 
-// Apply `patch` (a full detools delta) against `base`, writing the reconstructed
-// image to `sink`. Returns the output size in bytes on success, or a negative
-// detools error code (see detools_apply_error_string). Use this when base and
-// destination are different partitions (an A/B board writing the inactive slot).
-int detools_apply(IImageReader& base, const uint8_t* patch, size_t patch_len, IByteSink& sink);
+// Apply `patch` (a full detools delta) against `base`, writing the
+// reconstructed image to `sink`. Returns the output size in bytes on success,
+// or a negative detools error code (see detools_apply_error_string). Use this
+// when base and destination are different partitions (an A/B board writing the
+// inactive slot).
+int detools_apply(IImageReader &base, const uint8_t *patch, size_t patch_len,
+                  IByteSink &sink);
 
 // ---- In-place delta apply --------------------------------------------------
 //
@@ -54,28 +58,28 @@ int detools_apply(IImageReader& base, const uint8_t* patch, size_t patch_len, IB
 // Random-access flash memory (the ota_0 partition). Addresses are region-local
 // byte offsets. Each call returns 0 on success or a negative value on error.
 struct IFlashMem {
-    virtual ~IFlashMem() = default;
-    virtual int read(uintptr_t src, void* dst, size_t len) = 0;
-    virtual int write(uintptr_t dst, const void* src, size_t len) = 0;
-    virtual int erase(uintptr_t addr, size_t len) = 0;
+  virtual ~IFlashMem() = default;
+  virtual int read(uintptr_t src, void *dst, size_t len) = 0;
+  virtual int write(uintptr_t dst, const void *src, size_t len) = 0;
+  virtual int erase(uintptr_t addr, size_t len) = 0;
 };
 
-// Forward-only resume journal: detools persists the current step here after each
-// segment, and reads it back to resume. Persist it to flash/NVS so it survives a
-// reboot; get_step must return 0 (start) when nothing was ever set.
+// Forward-only resume journal: detools persists the current step here after
+// each segment, and reads it back to resume. Persist it to flash/NVS so it
+// survives a reboot; get_step must return 0 (start) when nothing was ever set.
 struct IStepJournal {
-    virtual ~IStepJournal() = default;
-    virtual int set_step(int step) = 0;
-    virtual int get_step(int* step) = 0;
+  virtual ~IStepJournal() = default;
+  virtual int set_step(int step) = 0;
+  virtual int get_step(int *step) = 0;
 };
 
 // Apply an in-place detools patch to the flash region behind `mem`, journaling
 // progress via `journal`. Returns the reconstructed (to) size on success, or a
 // negative detools error code.
-int detools_apply_in_place(IFlashMem& mem, IStepJournal& journal, const uint8_t* patch,
-                           size_t patch_len);
+int detools_apply_in_place(IFlashMem &mem, IStepJournal &journal,
+                           const uint8_t *patch, size_t patch_len);
 
 // Human-readable string for a negative code returned by either apply function.
-const char* detools_apply_error_string(int code);
+const char *detools_apply_error_string(int code);
 
 } // namespace ota_common

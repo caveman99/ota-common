@@ -32,6 +32,8 @@ lint:
     - shfmt@3.6.0
     - trufflehog@3.95.8
     - yamllint@1.38.0
+    - clang-format@14.0.1
+    - clang-tidy@16.0.3
 actions:
   disabled:
     - trunk-announce
@@ -39,7 +41,3 @@ actions:
     - trunk-fmt-pre-commit
   enabled:
     - trunk-upgrade-available
-tools:
-  enabled:
-    - clang-format@14.0.1
-    - clang-tidy@16.0.3

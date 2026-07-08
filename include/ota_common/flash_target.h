@@ -18,24 +18,26 @@ enum class FlashStatus { Ok, OutOfRange, WriteError, VerifyFailed, NotReady };
 //   InactiveSlotTarget: detools normal mode into the inactive slot,
 //                       esp_ota_set_boot_partition + IDF rollback (A/B boards).
 struct IFlashTarget {
-    virtual ~IFlashTarget() = default;
+  virtual ~IFlashTarget() = default;
 
-    // Prepare to receive an image of expected_output_size, described by the
-    // (already signature- and identity-verified) manifest.
-    virtual FlashStatus begin(uint32_t expected_output_size, const Manifest& manifest) = 0;
+  // Prepare to receive an image of expected_output_size, described by the
+  // (already signature- and identity-verified) manifest.
+  virtual FlashStatus begin(uint32_t expected_output_size,
+                            const Manifest &manifest) = 0;
 
-    // Write len bytes of the reconstructed output at byte offset. Offsets may
-    // be sequential (normal mode) or in-place; implementations handle their own
-    // ordering constraints.
-    virtual FlashStatus write(uint32_t offset, const uint8_t* bytes, size_t len) = 0;
+  // Write len bytes of the reconstructed output at byte offset. Offsets may
+  // be sequential (normal mode) or in-place; implementations handle their own
+  // ordering constraints.
+  virtual FlashStatus write(uint32_t offset, const uint8_t *bytes,
+                            size_t len) = 0;
 
-    // Verify the reconstructed image hash against the manifest's hard output
-    // gate, then activate (set boot partition / arm swap). Must not activate if
-    // the hash does not match.
-    virtual FlashStatus commit() = 0;
+  // Verify the reconstructed image hash against the manifest's hard output
+  // gate, then activate (set boot partition / arm swap). Must not activate if
+  // the hash does not match.
+  virtual FlashStatus commit() = 0;
 
-    // Abort an in-progress apply and release resources.
-    virtual void abort() = 0;
+  // Abort an in-progress apply and release resources.
+  virtual void abort() = 0;
 };
 
 } // namespace ota_common

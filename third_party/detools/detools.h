@@ -16,14 +16,15 @@
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
  */
 
 #ifndef DETOOLS_H
@@ -40,61 +41,61 @@ extern "C" {
  */
 
 #ifndef DETOOLS_CONFIG_FILE_IO
-#    define DETOOLS_CONFIG_FILE_IO                 1
+#define DETOOLS_CONFIG_FILE_IO 1
 #endif
 
 #ifndef DETOOLS_CONFIG_COMPRESSION_NONE
-#    define DETOOLS_CONFIG_COMPRESSION_NONE        1
+#define DETOOLS_CONFIG_COMPRESSION_NONE 1
 #endif
 
 #ifndef DETOOLS_CONFIG_COMPRESSION_LZMA
-#    define DETOOLS_CONFIG_COMPRESSION_LZMA        1
+#define DETOOLS_CONFIG_COMPRESSION_LZMA 1
 #endif
 
 #ifndef DETOOLS_CONFIG_COMPRESSION_CRLE
-#    define DETOOLS_CONFIG_COMPRESSION_CRLE        1
+#define DETOOLS_CONFIG_COMPRESSION_CRLE 1
 #endif
 
 #ifndef DETOOLS_CONFIG_COMPRESSION_HEATSHRINK
-#    define DETOOLS_CONFIG_COMPRESSION_HEATSHRINK  1
+#define DETOOLS_CONFIG_COMPRESSION_HEATSHRINK 1
 #endif
 
-#include <stdint.h>
-#include <string.h>
-#include <stdio.h>
 #include <stdbool.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <string.h>
 
-#define DETOOLS_VERSION                  "0.53.0"
+#define DETOOLS_VERSION "0.53.0"
 
 /* Error codes. */
-#define DETOOLS_OK                                        0
-#define DETOOLS_NOT_IMPLEMENTED                           1
-#define DETOOLS_NOT_DONE                                  2
-#define DETOOLS_BAD_PATCH_TYPE                            3
-#define DETOOLS_BAD_COMPRESSION                           4
-#define DETOOLS_INTERNAL_ERROR                            5
-#define DETOOLS_LZMA_INIT                                 6
-#define DETOOLS_LZMA_DECODE                               7
-#define DETOOLS_OUT_OF_MEMORY                             8
-#define DETOOLS_CORRUPT_PATCH                             9
-#define DETOOLS_IO_FAILED                                10
-#define DETOOLS_ALREADY_DONE                             11
-#define DETOOLS_FILE_OPEN_FAILED                         12
-#define DETOOLS_FILE_CLOSE_FAILED                        13
-#define DETOOLS_FILE_READ_FAILED                         14
-#define DETOOLS_FILE_WRITE_FAILED                        15
-#define DETOOLS_FILE_SEEK_FAILED                         16
-#define DETOOLS_FILE_TELL_FAILED                         17
-#define DETOOLS_SHORT_HEADER                             18
-#define DETOOLS_NOT_ENOUGH_PATCH_DATA                    19
-#define DETOOLS_HEATSHRINK_SINK                          20
-#define DETOOLS_HEATSHRINK_POLL                          21
-#define DETOOLS_STEP_SET_FAILED                          22
-#define DETOOLS_STEP_GET_FAILED                          23
-#define DETOOLS_ALREADY_FAILED                           24
-#define DETOOLS_CORRUPT_PATCH_OVERFLOW                   25
-#define DETOOLS_CORRUPT_PATCH_CRLE_KIND                  26
-#define DETOOLS_HEATSHRINK_HEADER                        27
+#define DETOOLS_OK 0
+#define DETOOLS_NOT_IMPLEMENTED 1
+#define DETOOLS_NOT_DONE 2
+#define DETOOLS_BAD_PATCH_TYPE 3
+#define DETOOLS_BAD_COMPRESSION 4
+#define DETOOLS_INTERNAL_ERROR 5
+#define DETOOLS_LZMA_INIT 6
+#define DETOOLS_LZMA_DECODE 7
+#define DETOOLS_OUT_OF_MEMORY 8
+#define DETOOLS_CORRUPT_PATCH 9
+#define DETOOLS_IO_FAILED 10
+#define DETOOLS_ALREADY_DONE 11
+#define DETOOLS_FILE_OPEN_FAILED 12
+#define DETOOLS_FILE_CLOSE_FAILED 13
+#define DETOOLS_FILE_READ_FAILED 14
+#define DETOOLS_FILE_WRITE_FAILED 15
+#define DETOOLS_FILE_SEEK_FAILED 16
+#define DETOOLS_FILE_TELL_FAILED 17
+#define DETOOLS_SHORT_HEADER 18
+#define DETOOLS_NOT_ENOUGH_PATCH_DATA 19
+#define DETOOLS_HEATSHRINK_SINK 20
+#define DETOOLS_HEATSHRINK_POLL 21
+#define DETOOLS_STEP_SET_FAILED 22
+#define DETOOLS_STEP_GET_FAILED 23
+#define DETOOLS_ALREADY_FAILED 24
+#define DETOOLS_CORRUPT_PATCH_OVERFLOW 25
+#define DETOOLS_CORRUPT_PATCH_CRLE_KIND 26
+#define DETOOLS_HEATSHRINK_HEADER 27
 
 /**
  * Read callback.
@@ -138,9 +139,7 @@ typedef int (*detools_seek_t)(void *arg_p, int offset);
  *
  * @return zero(0) or negative error code.
  */
-typedef int (*detools_mem_read_t)(void *arg_p,
-                                  void *dst_p,
-                                  uintptr_t src,
+typedef int (*detools_mem_read_t)(void *arg_p, void *dst_p, uintptr_t src,
                                   size_t size);
 
 /**
@@ -153,9 +152,7 @@ typedef int (*detools_mem_read_t)(void *arg_p,
  *
  * @return zero(0) or negative error code.
  */
-typedef int (*detools_mem_write_t)(void *arg_p,
-                                   uintptr_t dst,
-                                   void *src_p,
+typedef int (*detools_mem_write_t)(void *arg_p, uintptr_t dst, void *src_p,
                                    size_t size);
 
 /**
@@ -189,7 +186,8 @@ typedef int (*detools_state_read_t)(void *arg_p, void *buf_p, size_t size);
  *
  * @return zero(0) or negative error code.
  */
-typedef int (*detools_state_write_t)(void *arg_p, const void *buf_p, size_t size);
+typedef int (*detools_state_write_t)(void *arg_p, const void *buf_p,
+                                     size_t size);
 
 /**
  * Step set callback.
@@ -213,15 +211,15 @@ typedef int (*detools_step_set_t)(void *arg_p, int step);
 typedef int (*detools_step_get_t)(void *arg_p, int *step_p);
 
 struct detools_apply_patch_size_t {
-    int state;
-    int value;
-    int offset;
-    bool is_signed;
+  int state;
+  int value;
+  int offset;
+  bool is_signed;
 };
 
 struct detools_apply_patch_patch_reader_none_t {
-    size_t patch_size;
-    size_t patch_offset;
+  size_t patch_size;
+  size_t patch_offset;
 };
 
 #if DETOOLS_CONFIG_COMPRESSION_LZMA == 1
@@ -229,10 +227,10 @@ struct detools_apply_patch_patch_reader_none_t {
 #include <lzma.h>
 
 struct detools_apply_patch_patch_reader_lzma_t {
-    lzma_stream stream;
-    uint8_t *input_p;
-    uint8_t *output_p;
-    size_t output_size;
+  lzma_stream stream;
+  uint8_t *input_p;
+  uint8_t *output_p;
+  size_t output_size;
 };
 
 #endif
@@ -242,160 +240,159 @@ struct detools_apply_patch_patch_reader_lzma_t {
 #include "heatshrink_decoder.h"
 
 struct detools_apply_patch_patch_reader_heatshrink_t {
-    int8_t window_sz2;
-    int8_t lookahead_sz2;
-    heatshrink_decoder *decoder_p;
+  int8_t window_sz2;
+  int8_t lookahead_sz2;
+  heatshrink_decoder *decoder_p;
 #if HEATSHRINK_DYNAMIC_ALLOC == 0
-    heatshrink_decoder decoder;
+  heatshrink_decoder decoder;
 #endif
 };
 
 #endif
 
 enum detools_unpack_usize_state_t {
-    detools_unpack_usize_state_first_t = 0,
-    detools_unpack_usize_state_consecutive_t
+  detools_unpack_usize_state_first_t = 0,
+  detools_unpack_usize_state_consecutive_t
 };
 
 struct detools_unpack_usize_t {
-    enum detools_unpack_usize_state_t state;
-    int value;
-    int offset;
+  enum detools_unpack_usize_state_t state;
+  int value;
+  int offset;
 };
 
 enum detools_crle_state_t {
-    detools_crle_state_idle_t = 0,
-    detools_crle_state_scattered_size_t,
-    detools_crle_state_scattered_data_t,
-    detools_crle_state_repeated_repetitions_t,
-    detools_crle_state_repeated_data_t,
-    detools_crle_state_repeated_data_read_t
+  detools_crle_state_idle_t = 0,
+  detools_crle_state_scattered_size_t,
+  detools_crle_state_scattered_data_t,
+  detools_crle_state_repeated_repetitions_t,
+  detools_crle_state_repeated_data_t,
+  detools_crle_state_repeated_data_read_t
 };
 
 struct detools_apply_patch_patch_reader_crle_t {
-    enum detools_crle_state_t state;
-    union {
-        struct {
-            size_t number_of_bytes_left;
-            struct detools_unpack_usize_t size;
-        } scattered;
-        struct {
-            uint8_t value;
-            size_t number_of_bytes_left;
-            struct detools_unpack_usize_t size;
-        } repeated;
-    } kind;
+  enum detools_crle_state_t state;
+  union {
+    struct {
+      size_t number_of_bytes_left;
+      struct detools_unpack_usize_t size;
+    } scattered;
+    struct {
+      uint8_t value;
+      size_t number_of_bytes_left;
+      struct detools_unpack_usize_t size;
+    } repeated;
+  } kind;
 };
 
 struct detools_apply_patch_patch_reader_t {
-    struct detools_apply_patch_chunk_t *patch_chunk_p;
-    struct detools_apply_patch_size_t size;
-    union {
+  struct detools_apply_patch_chunk_t *patch_chunk_p;
+  struct detools_apply_patch_size_t size;
+  union {
 #if DETOOLS_CONFIG_COMPRESSION_NONE == 1
-        struct detools_apply_patch_patch_reader_none_t none;
+    struct detools_apply_patch_patch_reader_none_t none;
 #endif
 #if DETOOLS_CONFIG_COMPRESSION_LZMA == 1
-        struct detools_apply_patch_patch_reader_lzma_t lzma;
+    struct detools_apply_patch_patch_reader_lzma_t lzma;
 #endif
 #if DETOOLS_CONFIG_COMPRESSION_CRLE == 1
-        struct detools_apply_patch_patch_reader_crle_t crle;
+    struct detools_apply_patch_patch_reader_crle_t crle;
 #endif
 #if DETOOLS_CONFIG_COMPRESSION_HEATSHRINK == 1
-        struct detools_apply_patch_patch_reader_heatshrink_t heatshrink;
+    struct detools_apply_patch_patch_reader_heatshrink_t heatshrink;
 #endif
-    } compression;
-    int (*destroy)(struct detools_apply_patch_patch_reader_t *self_p);
-    int (*decompress)(struct detools_apply_patch_patch_reader_t *self_p,
-                      uint8_t *buf_p,
-                      size_t *size_p);
+  } compression;
+  int (*destroy)(struct detools_apply_patch_patch_reader_t *self_p);
+  int (*decompress)(struct detools_apply_patch_patch_reader_t *self_p,
+                    uint8_t *buf_p, size_t *size_p);
 };
 
 struct detools_apply_patch_chunk_t {
-    const uint8_t *buf_p;
-    size_t size;
-    size_t offset;
+  const uint8_t *buf_p;
+  size_t size;
+  size_t offset;
 };
 
 enum detools_apply_patch_state_t {
-    detools_apply_patch_state_init_t = 0,
-    detools_apply_patch_state_dfpatch_size_t,
-    detools_apply_patch_state_diff_size_t,
-    detools_apply_patch_state_diff_data_t,
-    detools_apply_patch_state_extra_size_t,
-    detools_apply_patch_state_extra_data_t,
-    detools_apply_patch_state_adjustment_t,
-    detools_apply_patch_state_done_t,
-    detools_apply_patch_state_failed_t
+  detools_apply_patch_state_init_t = 0,
+  detools_apply_patch_state_dfpatch_size_t,
+  detools_apply_patch_state_diff_size_t,
+  detools_apply_patch_state_diff_data_t,
+  detools_apply_patch_state_extra_size_t,
+  detools_apply_patch_state_extra_data_t,
+  detools_apply_patch_state_adjustment_t,
+  detools_apply_patch_state_done_t,
+  detools_apply_patch_state_failed_t
 };
 
 enum detools_apply_patch_init_state_t {
-    detools_apply_patch_init_state_fixed_header_t = 0,
-    detools_apply_patch_init_state_to_size_t
+  detools_apply_patch_init_state_fixed_header_t = 0,
+  detools_apply_patch_init_state_to_size_t
 };
 
 /**
  * The apply patch data structure.
  */
 struct detools_apply_patch_t {
-    detools_read_t from_read;
-    detools_seek_t from_seek;
-    size_t patch_size;
-    detools_write_t to_write;
-    void *arg_p;
-    enum detools_apply_patch_state_t state;
-    enum detools_apply_patch_init_state_t init_state;
-    int compression;
-    size_t patch_offset;
-    size_t to_offset;
-    size_t to_size;
-    int from_offset;
-    size_t chunk_size;
-    struct detools_apply_patch_patch_reader_t patch_reader;
-    struct detools_apply_patch_chunk_t chunk;
-    struct detools_apply_patch_size_t size;
+  detools_read_t from_read;
+  detools_seek_t from_seek;
+  size_t patch_size;
+  detools_write_t to_write;
+  void *arg_p;
+  enum detools_apply_patch_state_t state;
+  enum detools_apply_patch_init_state_t init_state;
+  int compression;
+  size_t patch_offset;
+  size_t to_offset;
+  size_t to_size;
+  int from_offset;
+  size_t chunk_size;
+  struct detools_apply_patch_patch_reader_t patch_reader;
+  struct detools_apply_patch_chunk_t chunk;
+  struct detools_apply_patch_size_t size;
 };
 
 enum detools_apply_patch_in_place_init_state_t {
-    detools_apply_patch_in_place_init_state_fixed_header_t = 0,
-    detools_apply_patch_in_place_init_state_memory_size_t,
-    detools_apply_patch_in_place_init_state_segment_size_t,
-    detools_apply_patch_in_place_init_state_shift_size_t,
-    detools_apply_patch_in_place_init_state_from_size_t,
-    detools_apply_patch_in_place_init_state_to_size_t
+  detools_apply_patch_in_place_init_state_fixed_header_t = 0,
+  detools_apply_patch_in_place_init_state_memory_size_t,
+  detools_apply_patch_in_place_init_state_segment_size_t,
+  detools_apply_patch_in_place_init_state_shift_size_t,
+  detools_apply_patch_in_place_init_state_from_size_t,
+  detools_apply_patch_in_place_init_state_to_size_t
 };
 
 /**
  * The in-place apply patch data structure.
  */
 struct detools_apply_patch_in_place_t {
-    detools_mem_read_t mem_read;
-    detools_mem_write_t mem_write;
-    detools_mem_erase_t mem_erase;
-    detools_step_set_t step_set;
-    detools_step_get_t step_get;
-    size_t patch_size;
-    void *arg_p;
-    enum detools_apply_patch_state_t state;
-    enum detools_apply_patch_in_place_init_state_t init_state;
-    int compression;
-    int ongoing_step;
-    size_t to_pos;
+  detools_mem_read_t mem_read;
+  detools_mem_write_t mem_write;
+  detools_mem_erase_t mem_erase;
+  detools_step_set_t step_set;
+  detools_step_get_t step_get;
+  size_t patch_size;
+  void *arg_p;
+  enum detools_apply_patch_state_t state;
+  enum detools_apply_patch_in_place_init_state_t init_state;
+  int compression;
+  int ongoing_step;
+  size_t to_pos;
+  size_t to_size;
+  size_t from_size;
+  size_t memory_size;
+  size_t segment_size;
+  size_t shift_size;
+  size_t chunk_size;
+  struct {
+    size_t index;
+    int from_offset;
+    size_t to_offset;
     size_t to_size;
-    size_t from_size;
-    size_t memory_size;
-    size_t segment_size;
-    size_t shift_size;
-    size_t chunk_size;
-    struct {
-        size_t index;
-        int from_offset;
-        size_t to_offset;
-        size_t to_size;
-        size_t to_pos;
-    } segment;
-    struct detools_apply_patch_patch_reader_t patch_reader;
-    struct detools_apply_patch_chunk_t chunk;
-    struct detools_apply_patch_size_t size;
+    size_t to_pos;
+  } segment;
+  struct detools_apply_patch_patch_reader_t patch_reader;
+  struct detools_apply_patch_chunk_t chunk;
+  struct detools_apply_patch_size_t size;
 };
 
 /**
@@ -413,10 +410,8 @@ struct detools_apply_patch_in_place_t {
  * @return zero(0) or negative error code.
  */
 int detools_apply_patch_init(struct detools_apply_patch_t *self_p,
-                             detools_read_t from_read,
-                             detools_seek_t from_seek,
-                             size_t patch_size,
-                             detools_write_t to_write,
+                             detools_read_t from_read, detools_seek_t from_seek,
+                             size_t patch_size, detools_write_t to_write,
                              void *arg_p);
 
 /**
@@ -466,7 +461,8 @@ size_t detools_apply_patch_get_to_offset(struct detools_apply_patch_t *self_p);
  *
  * @return The current patch stream offset.
  */
-size_t detools_apply_patch_get_patch_offset(struct detools_apply_patch_t *self_p);
+size_t
+detools_apply_patch_get_patch_offset(struct detools_apply_patch_t *self_p);
 
 /**
  * Call this function repeatedly until all patch data has been
@@ -480,8 +476,7 @@ size_t detools_apply_patch_get_patch_offset(struct detools_apply_patch_t *self_p
  * @return zero(0) or negative error code.
  */
 int detools_apply_patch_process(struct detools_apply_patch_t *self_p,
-                                const uint8_t *patch_p,
-                                size_t size);
+                                const uint8_t *patch_p, size_t size);
 
 /**
  * Call once after all data has been processed to finalize the
@@ -510,13 +505,9 @@ int detools_apply_patch_finalize(struct detools_apply_patch_t *self_p);
  * @return zero(0) or negative error code.
  */
 int detools_apply_patch_in_place_init(
-    struct detools_apply_patch_in_place_t *self_p,
-    detools_mem_read_t mem_read,
-    detools_mem_write_t mem_write,
-    detools_mem_erase_t mem_erase,
-    detools_step_set_t step_set,
-    detools_step_get_t step_get,
-    size_t patch_size,
+    struct detools_apply_patch_in_place_t *self_p, detools_mem_read_t mem_read,
+    detools_mem_write_t mem_write, detools_mem_erase_t mem_erase,
+    detools_step_set_t step_set, detools_step_get_t step_get, size_t patch_size,
     void *arg_p);
 
 /**
@@ -532,8 +523,7 @@ int detools_apply_patch_in_place_init(
  * @return zero(0) or negative error code.
  */
 int detools_apply_patch_in_place_process(
-    struct detools_apply_patch_in_place_t *self_p,
-    const uint8_t *patch_p,
+    struct detools_apply_patch_in_place_t *self_p, const uint8_t *patch_p,
     size_t size);
 
 /**
@@ -563,10 +553,8 @@ int detools_apply_patch_in_place_finalize(
  */
 int detools_apply_patch_callbacks(detools_read_t from_read,
                                   detools_seek_t from_seek,
-                                  detools_read_t patch_read,
-                                  size_t patch_size,
-                                  detools_write_t to_write,
-                                  void *arg_p);
+                                  detools_read_t patch_read, size_t patch_size,
+                                  detools_write_t to_write, void *arg_p);
 
 /**
  * Apply given in-place patch using read, write and erase callbacks.
@@ -588,8 +576,7 @@ int detools_apply_patch_in_place_callbacks(detools_mem_read_t mem_read,
                                            detools_step_set_t step_set,
                                            detools_step_get_t step_get,
                                            detools_read_t patch_read,
-                                           size_t patch_size,
-                                           void *arg_p);
+                                           size_t patch_size, void *arg_p);
 
 #if DETOOLS_CONFIG_FILE_IO == 1
 
@@ -603,8 +590,7 @@ int detools_apply_patch_in_place_callbacks(detools_mem_read_t mem_read,
  *
  * @return Size of to-data in bytes or negative error code.
  */
-int detools_apply_patch_filenames(const char *from_p,
-                                  const char *patch_p,
+int detools_apply_patch_filenames(const char *from_p, const char *patch_p,
                                   const char *to_p);
 
 /**
