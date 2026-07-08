@@ -11,7 +11,13 @@ from .formats import TRAILER_SIZE, Trailer
 
 
 def append_trailer(
-    image: bytes, *, env: str, version: str, commit: str, repo: str = "", hw_vendor: int = 0
+    image: bytes,
+    *,
+    env: str,
+    version: str,
+    commit: str,
+    repo: str = "",
+    hw_vendor: int = 0,
 ) -> bytes:
     """Return image with a finalized trailer appended.
 

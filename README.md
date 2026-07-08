@@ -8,16 +8,16 @@ host, on a bare ESP-IDF loader, and inside PlatformIO/Arduino firmware.
 
 ## Components
 
-| Header | Provides |
-|---|---|
-| `trailer.h` | Self-identity trailer: build metadata appended to an image |
-| `package.h` / `manifest.h` | Update package container, read-only bounds-checked parse |
-| `transport.h` | `OtaSeeder` / `OtaReceiver`: fragment, block, ACK, resume |
-| `merkle.h` | Merkle tree over payload blocks: root, proof, per-block verify |
-| `detools_apply.h` | Delta apply (full-slot and in-place), decoder only |
+| Header                                       | Provides                                                               |
+| -------------------------------------------- | ---------------------------------------------------------------------- |
+| `trailer.h`                                  | Self-identity trailer: build metadata appended to an image             |
+| `package.h` / `manifest.h`                   | Update package container, read-only bounds-checked parse               |
+| `transport.h`                                | `OtaSeeder` / `OtaReceiver`: fragment, block, ACK, resume              |
+| `merkle.h`                                   | Merkle tree over payload blocks: root, proof, per-block verify         |
+| `detools_apply.h`                            | Delta apply (full-slot and in-place), decoder only                     |
 | `flash_target.h` / `radio.h` / `signature.h` | The `IFlashTarget`, `IRadio`, `ISignatureVerifier` seams you implement |
-| `admin_key_verifier.h` / `xeddsa.h` | Self-contained XEdDSA verify over a node's admin keys |
-| `sha256.h` / `esp_image.h` | SHA-256, ESP image-length parser |
+| `admin_key_verifier.h` / `xeddsa.h`          | Self-contained XEdDSA verify over a node's admin keys                  |
+| `sha256.h` / `esp_image.h`                   | SHA-256, ESP image-length parser                                       |
 
 Include `ota_common/ota_common.h` for the whole surface, or the individual
 headers you use.

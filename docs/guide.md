@@ -70,15 +70,15 @@ ota-common holds no platform code. You provide implementations of the
 interfaces it calls. A host build or a test can supply trivial in-memory
 versions; a firmware build supplies flash-backed and radio-backed ones.
 
-| Interface | Header | Responsibility |
-|---|---|---|
-| `IFlashTarget` | `flash_target.h` | Receive the reconstructed image, gate its hash, activate it |
-| `IRadio` | `radio.h` | Apply an RF profile, send and receive whole frames |
-| `IFrameOut` | `transport.h` | Send one outgoing frame (a subset of `IRadio` for the receiver) |
-| `IBlockStore` | `transport.h` | Persist verified payload blocks, report which survived a reboot |
-| `ISignatureVerifier` | `signature.h` | Verify a signature over the manifest against trusted keys |
-| `IByteSink` | `detools_apply.h` | Sequential sink for a decoded image |
-| `IFlashMem` / `IStepJournal` | `detools_apply.h` | Random-access flash and a resume journal, for in-place delta |
+| Interface                    | Header            | Responsibility                                                  |
+| ---------------------------- | ----------------- | --------------------------------------------------------------- |
+| `IFlashTarget`               | `flash_target.h`  | Receive the reconstructed image, gate its hash, activate it     |
+| `IRadio`                     | `radio.h`         | Apply an RF profile, send and receive whole frames              |
+| `IFrameOut`                  | `transport.h`     | Send one outgoing frame (a subset of `IRadio` for the receiver) |
+| `IBlockStore`                | `transport.h`     | Persist verified payload blocks, report which survived a reboot |
+| `ISignatureVerifier`         | `signature.h`     | Verify a signature over the manifest against trusted keys       |
+| `IByteSink`                  | `detools_apply.h` | Sequential sink for a decoded image                             |
+| `IFlashMem` / `IStepJournal` | `detools_apply.h` | Random-access flash and a resume journal, for in-place delta    |
 
 `IFlashTarget` is the central apply seam:
 
@@ -260,19 +260,19 @@ build a partition holds without a radio, NVS, or network. The ESP image format
 is self-describing, so trailing bytes after the image are ignored by the
 bootloader. Definition: `trailer.h`.
 
-| Offset | Size | Field | Description |
-|-------:|-----:|-------|-------------|
-| 0 | 4 | `magic` | `0x4F544231` ("OTB1") |
-| 4 | 2 | `format` | 1 |
-| 6 | 2 | `flags` | reserved, 0 |
-| 8 | 32 | `env` | PlatformIO env, e.g. `heltec-v3` |
-| 40 | 48 | `version` | `APP_VERSION` long, e.g. `2.8.0.54e0d8d` |
-| 88 | 16 | `commit` | git short SHA, NUL-padded |
-| 104 | 48 | `repo` | `owner/name`, e.g. `meshtastic/firmware` |
-| 152 | 4 | `hw_vendor` | HardwareModel id |
-| 156 | 4 | `image_length` | length of the image preceding this trailer |
-| 160 | 8 | `reserved0/1` | 0 |
-| 168 | 4 | `crc32` | CRC-32 (IEEE 802.3) over bytes `[0, 168)` |
+| Offset | Size | Field          | Description                                |
+| -----: | ---: | -------------- | ------------------------------------------ |
+|      0 |    4 | `magic`        | `0x4F544231` ("OTB1")                      |
+|      4 |    2 | `format`       | 1                                          |
+|      6 |    2 | `flags`        | reserved, 0                                |
+|      8 |   32 | `env`          | PlatformIO env, e.g. `heltec-v3`           |
+|     40 |   48 | `version`      | `APP_VERSION` long, e.g. `2.8.0.54e0d8d`   |
+|     88 |   16 | `commit`       | git short SHA, NUL-padded                  |
+|    104 |   48 | `repo`         | `owner/name`, e.g. `meshtastic/firmware`   |
+|    152 |    4 | `hw_vendor`    | HardwareModel id                           |
+|    156 |    4 | `image_length` | length of the image preceding this trailer |
+|    160 |    8 | `reserved0/1`  | 0                                          |
+|    168 |    4 | `crc32`        | CRC-32 (IEEE 802.3) over bytes `[0, 168)`  |
 
 Strings are NUL-padded and need not be NUL-terminated when they fill the field;
 readers treat them as `strnlen`-bounded.
@@ -300,21 +300,21 @@ and `output_sha256` over the reconstructed image, both inside the signed region.
 
 Manifest (192 bytes):
 
-| Offset | Size | Field | Description |
-|-------:|-----:|-------|-------------|
-| 0 | 4 | `magic` | `0x4E414D4D` ("MMAN") |
-| 4 | 2 | `format` | 1 |
-| 6 | 2 | `flags` | bit0 = payload is a detools delta |
-| 8 | 32 | `env` | expected base env (soft gate) |
-| 40 | 48 | `base_version` | expected base `APP_VERSION` long |
-| 88 | 16 | `base_commit` | expected base git short SHA |
-| 104 | 4 | `block_size` | payload merkle/transport block size |
-| 108 | 4 | `block_count` | number of payload blocks |
-| 112 | 4 | `payload_length` | payload bytes following the signature |
-| 116 | 32 | `payload_merkle_root` | SHA-256 merkle root over payload blocks |
-| 148 | 4 | `output_length` | reconstructed image length |
-| 152 | 32 | `output_sha256` | SHA-256 of the full reconstructed image |
-| 184 | 8 | `reserved0/1` | 0 |
+| Offset | Size | Field                 | Description                             |
+| -----: | ---: | --------------------- | --------------------------------------- |
+|      0 |    4 | `magic`               | `0x4E414D4D` ("MMAN")                   |
+|      4 |    2 | `format`              | 1                                       |
+|      6 |    2 | `flags`               | bit0 = payload is a detools delta       |
+|      8 |   32 | `env`                 | expected base env (soft gate)           |
+|     40 |   48 | `base_version`        | expected base `APP_VERSION` long        |
+|     88 |   16 | `base_commit`         | expected base git short SHA             |
+|    104 |    4 | `block_size`          | payload merkle/transport block size     |
+|    108 |    4 | `block_count`         | number of payload blocks                |
+|    112 |    4 | `payload_length`      | payload bytes following the signature   |
+|    116 |   32 | `payload_merkle_root` | SHA-256 merkle root over payload blocks |
+|    148 |    4 | `output_length`       | reconstructed image length              |
+|    152 |   32 | `output_sha256`       | SHA-256 of the full reconstructed image |
+|    184 |    8 | `reserved0/1`         | 0                                       |
 
 Device verification order: structural parse, signature over the manifest, soft
 identity gate against the running trailer, per-block merkle verification as
@@ -328,13 +328,13 @@ Point-to-point delivery over a Meshtastic PortNum: one seeder, one target,
 single hop. Definition: `transport.h`. Every frame is an 8-byte header followed
 by a payload, total at most 233 bytes (one Meshtastic data payload).
 
-| Offset | Size | Field | Meaning |
-|-------:|-----:|-------|---------|
-| 0 | 1 | `type` | frame type (below) |
-| 1 | 1 | `session` | point-to-point session id, echoed by both sides |
-| 2 | 2 | `index` | block index, or `0xFFFF` for the manifest unit |
-| 4 | 2 | `off` | byte offset of this fragment within its unit |
-| 6 | 2 | `total` | total byte length of the logical unit |
+| Offset | Size | Field     | Meaning                                         |
+| -----: | ---: | --------- | ----------------------------------------------- |
+|      0 |    1 | `type`    | frame type (below)                              |
+|      1 |    1 | `session` | point-to-point session id, echoed by both sides |
+|      2 |    2 | `index`   | block index, or `0xFFFF` for the manifest unit  |
+|      4 |    2 | `off`     | byte offset of this fragment within its unit    |
+|      6 |    2 | `total`   | total byte length of the logical unit           |
 
 Frame types: `Start(1) Manifest(2) Block(3) Proof(4)` from seeder to target;
 `Request(5) Ack(6) Done(7)` from target to seeder; `Abort(8)` either way.

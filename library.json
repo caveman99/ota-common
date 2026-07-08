@@ -5,12 +5,26 @@
   "keywords": ["meshtastic", "ota", "lora", "firmware-update", "merkle"],
   "license": "GPL-3.0-only",
   "authors": [{ "name": "Meshtastic", "url": "https://meshtastic.org" }],
-  "repository": { "type": "git", "url": "https://github.com/meshtastic/firmware.git" },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/meshtastic/firmware.git"
+  },
   "frameworks": "*",
   "platforms": "*",
   "headers": "ota_common/ota_common.h",
   "export": {
-    "include": ["CMakeLists.txt", "idf_component.yml", "library.json", "library.properties", "LICENSE", "README.md", "src", "include", "third_party", "docs"]
+    "include": [
+      "CMakeLists.txt",
+      "idf_component.yml",
+      "library.json",
+      "library.properties",
+      "LICENSE",
+      "README.md",
+      "src",
+      "include",
+      "third_party",
+      "docs"
+    ]
   },
   "build": {
     "srcDir": "src",

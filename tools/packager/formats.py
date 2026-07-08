@@ -76,7 +76,20 @@ class Trailer:
             raise ValueError("trailer buffer too small")
         chunk = data[:TRAILER_SIZE]
         fields = struct.unpack(_TRAILER_FMT, chunk)
-        magic, fmt, flags, env, version, commit, repo, hw_vendor, image_len, _r0, _r1, crc = fields
+        (
+            magic,
+            fmt,
+            flags,
+            env,
+            version,
+            commit,
+            repo,
+            hw_vendor,
+            image_len,
+            _r0,
+            _r1,
+            crc,
+        ) = fields
         if magic != TRAILER_MAGIC:
             raise ValueError(f"bad trailer magic 0x{magic:08x}")
         if fmt != TRAILER_FORMAT:
@@ -160,7 +173,22 @@ class Manifest:
     @staticmethod
     def unpack(data: bytes) -> "Manifest":
         fields = struct.unpack(_MANIFEST_FMT, data[:MANIFEST_SIZE])
-        (magic, fmt, flags, env, ver, commit, bs, bc, plen, root, olen, osha, _r0, _r1) = fields
+        (
+            magic,
+            fmt,
+            flags,
+            env,
+            ver,
+            commit,
+            bs,
+            bc,
+            plen,
+            root,
+            olen,
+            osha,
+            _r0,
+            _r1,
+        ) = fields
         if magic != MANIFEST_MAGIC:
             raise ValueError(f"bad manifest magic 0x{magic:08x}")
         if fmt != MANIFEST_FORMAT:

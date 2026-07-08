@@ -59,9 +59,13 @@ def test_tampered_manifest_breaks_signature():
 
 
 def test_signing_buffer_domain():
-    pkg = package.build_full_package(image=_img(100, 1), base_version="v", base_commit="c", env="e")
+    pkg = package.build_full_package(
+        image=_img(100, 1), base_version="v", base_commit="c", env="e"
+    )
     sb = package.signing_buffer(package.manifest_bytes(pkg))
-    assert sb[:12] == struct.pack("<III", 0, 0, 79)  # from=0, id=0, portnum=LORA_OTA_APP
+    assert sb[:12] == struct.pack(
+        "<III", 0, 0, 79
+    )  # from=0, id=0, portnum=LORA_OTA_APP
 
 
 def test_clamp_is_idempotent():

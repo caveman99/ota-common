@@ -39,7 +39,9 @@ def admin_public_key(curve_priv: bytes) -> bytes:
     return bytes(xeddsa.priv_to_curve25519_pub(xeddsa.Priv(_clamp(curve_priv))))
 
 
-def sign_signing_buffer(to_sign: bytes, curve_priv: bytes, nonce: bytes | None = None) -> bytes:
+def sign_signing_buffer(
+    to_sign: bytes, curve_priv: bytes, nonce: bytes | None = None
+) -> bytes:
     """XEdDSA-sign already-built signing-buffer bytes; returns a 64-byte sig.
     nonce is the 64-byte XEdDSA Z (random when None; pass a fixed value only for
     deterministic tests/fixtures)."""
@@ -50,7 +52,9 @@ def sign_signing_buffer(to_sign: bytes, curve_priv: bytes, nonce: bytes | None =
     return bytes(xeddsa.ed25519_priv_sign(priv, to_sign, n))
 
 
-def sign_package(package_bytes: bytes, curve_priv: bytes, nonce: bytes | None = None) -> bytes:
+def sign_package(
+    package_bytes: bytes, curve_priv: bytes, nonce: bytes | None = None
+) -> bytes:
     """Sign an (unsigned) package's manifest and return the signed package."""
     to_sign = package.signing_buffer(package.manifest_bytes(package_bytes))
     sig = sign_signing_buffer(to_sign, curve_priv, nonce=nonce)

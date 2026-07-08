@@ -45,7 +45,9 @@ LORA_OTA_PORTNUM = 79
 DEFAULT_COMPRESSION = "heatshrink"
 
 
-def make_delta(base: bytes, target: bytes, compression: str = DEFAULT_COMPRESSION) -> bytes:
+def make_delta(
+    base: bytes, target: bytes, compression: str = DEFAULT_COMPRESSION
+) -> bytes:
     """Produce a detools delta that reconstructs target from base.
 
     Decoder-only on device. The default sequential bsdiff format is applied in

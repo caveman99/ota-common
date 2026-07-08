@@ -63,15 +63,26 @@ def main() -> int:
     signed_admin_pub = sign.admin_public_key(node_priv)
     image = bytes((i * 3 + 1) & 0xFF for i in range(2500))
     pkg = package.build_full_package(
-        image=image, base_version="2.8.0.abc1234", base_commit="abc1234", env="heltec-v3"
+        image=image,
+        base_version="2.8.0.abc1234",
+        base_commit="abc1234",
+        env="heltec-v3",
     )
-    signed_pkg = sign.sign_package(pkg, node_priv, nonce=bytes(64))  # fixed nonce -> deterministic
+    signed_pkg = sign.sign_package(
+        pkg, node_priv, nonce=bytes(64)
+    )  # fixed nonce -> deterministic
     (FIX / "signed_package.bin").write_bytes(signed_pkg)
     (FIX / "signed_admin_pub.bin").write_bytes(signed_admin_pub)
 
     print(f"wrote XEdDSA fixtures to {FIX}")
-    for n in ("xeddsa_admin_pub.bin", "xeddsa_other_pub.bin", "xeddsa_payload.bin",
-              "xeddsa_sig.bin", "signed_package.bin", "signed_admin_pub.bin"):
+    for n in (
+        "xeddsa_admin_pub.bin",
+        "xeddsa_other_pub.bin",
+        "xeddsa_payload.bin",
+        "xeddsa_sig.bin",
+        "signed_package.bin",
+        "signed_admin_pub.bin",
+    ):
         print(f"  {n:22s} {(FIX / n).stat().st_size} bytes")
     return 0
 

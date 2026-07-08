@@ -78,7 +78,9 @@ def cmd_build_delta(args) -> int:
     )
     parsed = package.parse_package(pkg)
     print(f"wrote UNSIGNED delta package {len(pkg)} bytes -> {args.out}")
-    print(f"target {len(target)} bytes, delta payload {parsed.manifest.payload_length} bytes")
+    print(
+        f"target {len(target)} bytes, delta payload {parsed.manifest.payload_length} bytes"
+    )
     print("next: `sign-info` then have the admin device sign, then `attach-sig`")
     Path(args.out).write_bytes(pkg)
     return 0
@@ -107,7 +109,9 @@ def cmd_sign(args) -> int:
     signed = signer.sign_package(_read(args.package), key)
     Path(args.out).write_bytes(signed)
     print(f"signed package -> {args.out}")
-    print(f"admin public key (add to admin_key[]): {signer.admin_public_key(key).hex()}")
+    print(
+        f"admin public key (add to admin_key[]): {signer.admin_public_key(key).hex()}"
+    )
     return 0
 
 
@@ -167,7 +171,9 @@ def cmd_verify_delta(args) -> int:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    p = argparse.ArgumentParser(prog="packager", description="Meshtastic LoRa OTA packager")
+    p = argparse.ArgumentParser(
+        prog="packager", description="Meshtastic LoRa OTA packager"
+    )
     sub = p.add_subparsers(dest="cmd", required=True)
 
     rt = sub.add_parser("read-trailer")
@@ -208,13 +214,21 @@ def build_parser() -> argparse.ArgumentParser:
     si.add_argument("--out")
     si.set_defaults(func=cmd_sign_info)
 
-    sg = sub.add_parser("sign", help="reference signer: XEdDSA-sign a package with an admin key")
+    sg = sub.add_parser(
+        "sign", help="reference signer: XEdDSA-sign a package with an admin key"
+    )
     sg.add_argument("package")
-    sg.add_argument("--key", required=True, help="32-byte admin curve private key (node private_key)")
+    sg.add_argument(
+        "--key",
+        required=True,
+        help="32-byte admin curve private key (node private_key)",
+    )
     sg.add_argument("--out", required=True)
     sg.set_defaults(func=cmd_sign)
 
-    ap = sub.add_parser("admin-pubkey", help="derive the admin public key from a private key")
+    ap = sub.add_parser(
+        "admin-pubkey", help="derive the admin public key from a private key"
+    )
     ap.add_argument("--key", required=True)
     ap.set_defaults(func=cmd_admin_pubkey)
 

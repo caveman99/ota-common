@@ -64,7 +64,9 @@ def merkle_proof(leaves: List[bytes], index: int) -> List[bytes]:
     return proof
 
 
-def merkle_verify(leaf: bytes, index: int, leaf_count: int, proof: List[bytes], root: bytes) -> bool:
+def merkle_verify(
+    leaf: bytes, index: int, leaf_count: int, proof: List[bytes], root: bytes
+) -> bool:
     if leaf_count == 0 or index >= leaf_count:
         return False
     h = leaf

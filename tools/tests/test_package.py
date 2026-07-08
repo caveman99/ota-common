@@ -1,15 +1,14 @@
 """Packager acceptance (unsigned packages; the admin device signs on-device):
-  - apply(base, delta) == full, byte for byte
-  - a wrong-base apply fails the output gate
-  - integrity (structure + merkle + output hash) holds; tampering is caught
-  - the sign/attach helpers round-trip and match the firmware signing buffer
+- apply(base, delta) == full, byte for byte
+- a wrong-base apply fails the output gate
+- integrity (structure + merkle + output hash) holds; tampering is caught
+- the sign/attach helpers round-trip and match the firmware signing buffer
 """
 
 import hashlib
 import struct
 
 import pytest
-
 from packager import merkle, package
 from packager.trailer_tool import append_trailer
 
@@ -34,7 +33,10 @@ def _target_from(base):
 def test_full_package_roundtrip():
     image = _img(8000, 42)
     pkg = package.build_full_package(
-        image=image, base_version="2.8.0.abc1234", base_commit="abc1234", env="heltec-v3"
+        image=image,
+        base_version="2.8.0.abc1234",
+        base_commit="abc1234",
+        env="heltec-v3",
     )
     parsed = package.verify_integrity(pkg)  # merkle + output hash
     assert not parsed.manifest.is_delta
@@ -44,7 +46,9 @@ def test_full_package_roundtrip():
 
 
 def test_delta_roundtrip_and_apply():
-    base = append_trailer(_img(8000, 7), env="heltec-v3", version="2.8.0.abc1234", commit="abc1234")
+    base = append_trailer(
+        _img(8000, 7), env="heltec-v3", version="2.8.0.abc1234", commit="abc1234"
+    )
     target = _target_from(base)
     pkg = package.build_delta_package(base_image=base, target_image=target)
     parsed = package.verify_integrity(pkg)
@@ -86,7 +90,9 @@ def test_wrong_base_fails_output_gate():
 def test_tampered_payload_rejected_by_merkle():
     image = _img(5000, 5)
     pkg = bytearray(
-        package.build_full_package(image=image, base_version="v", base_commit="c", env="e")
+        package.build_full_package(
+            image=image, base_version="v", base_commit="c", env="e"
+        )
     )
     # Corrupt a payload byte (after header + manifest + signature).
     payload_off = 16 + 192 + 64
@@ -97,7 +103,9 @@ def test_tampered_payload_rejected_by_merkle():
 
 def test_payload_blocks_verify_against_root():
     image = _img(4096 + 300, 5)
-    pkg = package.build_full_package(image=image, base_version="v", base_commit="c", env="e")
+    pkg = package.build_full_package(
+        image=image, base_version="v", base_commit="c", env="e"
+    )
     parsed = package.parse_package(pkg)
     bs = parsed.manifest.block_size
     leaves = merkle.leaves_for(parsed.payload, bs)
@@ -107,12 +115,16 @@ def test_payload_blocks_verify_against_root():
         off = i * bs
         block = parsed.payload[off : off + bs]
         proof = merkle.merkle_proof(leaves, i)
-        assert merkle.merkle_verify(merkle.hash_leaf(block), i, len(leaves), proof, root)
+        assert merkle.merkle_verify(
+            merkle.hash_leaf(block), i, len(leaves), proof, root
+        )
 
 
 def test_signing_buffer_matches_firmware_convention():
     image = _img(1000, 3)
-    pkg = package.build_full_package(image=image, base_version="v", base_commit="c", env="e")
+    pkg = package.build_full_package(
+        image=image, base_version="v", base_commit="c", env="e"
+    )
     mbytes = package.manifest_bytes(pkg)
     assert len(mbytes) == 192
     sb = package.signing_buffer(mbytes)
@@ -124,7 +136,9 @@ def test_signing_buffer_matches_firmware_convention():
 
 def test_attach_signature_roundtrip():
     image = _img(1000, 4)
-    pkg = package.build_full_package(image=image, base_version="v", base_commit="c", env="e")
+    pkg = package.build_full_package(
+        image=image, base_version="v", base_commit="c", env="e"
+    )
     assert not package.is_signed(pkg)
     sig = bytes(range(64))
     signed = package.attach_signature(pkg, sig)

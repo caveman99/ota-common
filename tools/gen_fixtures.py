@@ -48,8 +48,12 @@ def main() -> int:
 
     base_core = det_image(6000, 11)
     base_image = append_trailer(
-        base_core, env=ENV, version=BASE_VERSION, commit=BASE_COMMIT,
-        repo="meshtastic/firmware", hw_vendor=9,
+        base_core,
+        env=ENV,
+        version=BASE_VERSION,
+        commit=BASE_COMMIT,
+        repo="meshtastic/firmware",
+        hw_vendor=9,
     )
     (FIXTURES / "base_image.bin").write_bytes(base_image)
 
@@ -58,23 +62,34 @@ def main() -> int:
         t[i] ^= 0x5A
     t += b"the-new-section" * 16
     target_image = append_trailer(
-        bytes(t), env=ENV, version=TARGET_VERSION, commit=TARGET_COMMIT,
-        repo="meshtastic/firmware", hw_vendor=9,
+        bytes(t),
+        env=ENV,
+        version=TARGET_VERSION,
+        commit=TARGET_COMMIT,
+        repo="meshtastic/firmware",
+        hw_vendor=9,
     )
     (FIXTURES / "target_image.bin").write_bytes(target_image)
 
     full_pkg = package.build_full_package(
-        image=target_image, base_version=BASE_VERSION, base_commit=BASE_COMMIT, env=ENV,
+        image=target_image,
+        base_version=BASE_VERSION,
+        base_commit=BASE_COMMIT,
+        env=ENV,
     )
     (FIXTURES / "full_package.bin").write_bytes(full_pkg)
 
-    delta_pkg = package.build_delta_package(base_image=base_image, target_image=target_image)
+    delta_pkg = package.build_delta_package(
+        base_image=base_image, target_image=target_image
+    )
     (FIXTURES / "delta_package.bin").write_bytes(delta_pkg)
 
     # In-place patch: patches the whole flash region (base -> target) in place.
     # memory_size/segment_size are fixed here and mirrored in the C++ test.
     inplace = package.make_inplace_delta(
-        base_image, target_image, memory_size=IN_PLACE_MEMORY_SIZE,
+        base_image,
+        target_image,
+        memory_size=IN_PLACE_MEMORY_SIZE,
         segment_size=IN_PLACE_SEGMENT_SIZE,
     )
     (FIXTURES / "inplace_patch.bin").write_bytes(inplace)
